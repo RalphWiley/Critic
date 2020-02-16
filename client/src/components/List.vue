@@ -53,7 +53,8 @@ export default {
       title: {
         id: '',
         name: '',
-        rating: ''
+        rating: '',
+        genre: ''
       },
       type: {
         book: '',
@@ -61,6 +62,22 @@ export default {
         tv: '',
         graphic: ''
       }
+    }
+  },
+  mounted: function () {
+    this.getRatings()
+    console.log('Component mounted')
+  },
+  methods: {
+    getRatings () {
+      axios({ method: 'GET', url: '/api/ratings'})
+        .then(
+          res => {
+            console.log(res.data)
+            this.titles = res.data
+          },
+          err => console.log(err)
+        )
     }
   }
 }

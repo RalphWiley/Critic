@@ -14,7 +14,12 @@ class CreateRatingsTable extends Migration
     public function up()
     {
         Schema::create('ratings', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->string('title');
+            $table->enum('type', ['movie', 'tv', 'book', 'graphic']);
+            $table->string('genre');
+            $table->decimal('rating', 2, 1);
+
             $table->timestamps();
         });
     }
