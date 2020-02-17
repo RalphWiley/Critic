@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
+      
+   <font-awesome-icon :icon="['far', 'circle']" />
   </div>
 </template>
 

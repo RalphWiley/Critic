@@ -22,3 +22,10 @@ Route::get('rating/{id}', 'RatingController@show');
 Route::post('rating', 'RatingController@store');
 Route::put('ratings/{id}', 'RatingController@update');
 Route::delete('ratings/{id}', 'RatingController@delete');
+
+Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function() {
+    Route::post('signin', 'SignInController');
+    Route::post('signout', 'SignOutController');
+
+    Route::get('me', 'MeController');
+});

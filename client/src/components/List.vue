@@ -37,24 +37,24 @@
   <h1>Rated</h1>
     
         <!-- <button @click="showContact(contact.id)" class="btn btn-default btn-xs">Edit</button> -->
-    <table class="table table-striped">
+    <table class="table table-striped" id="ratingForm">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Title</th>
-          <th scope="col">Type</th>
-          <th scope="col">Rating</th>
-          <th scope="col">Genre</th>
-          <th scope="col-1"></th>
+          <th scope="col" @click="sortTable(0)">Title</th>
+          <th scope="col" @click="sortTable(1)">Type</th>
+          <th scope="col" @click="sortTable(2)">Rating</th>
+          <th scope="col" @click="sortTable(3)">Genre</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(title) in titles"
-            :key="title.id">
-          <td>{{ title.title }}</td>
-          <td>{{ title.type }}</td>
-          <td>{{ title.rating }}</td>
-          <td>{{ title.genre }}</td>
-          <td><button @click="editRating(title.title, title.id, title.rating, title.type, title.genre)" class="btn btn-default btn-xs">Edit</button></td>
+            :key="title.id" :type="title.type">
+          <td class="col-sm-1 title">{{ title.title }}</td>
+          <td class="col-sm-2">{{ title.type }}</td>
+          <td class="col-sm-2">{{ title.rating }}</td>
+          <td class="col-sm-2">{{ title.genre }}</td>
+          <td><button @click="editRating(title.title, title.id, title.rating, title.type, title.genre)" class="btn btn-default btn-xs btn-success"><font-awesome-icon :icon="['far', 'circle']" /></button></td>
         </tr>
       </tbody>
     </table>
@@ -65,6 +65,9 @@
 </template>
 
 <style>
+  body {
+    background-color: #477d5d9c;
+  }
   #ratings {
     margin: 25px auto;
   }
@@ -72,6 +75,12 @@
     background-color: #ddd;
     padding: 25px;
     border-radius: 5px;
+  }
+  .table td {
+    vertical-align: middle;
+  }
+  .title {
+    font-size: 20px;
   }
 </style>
 
@@ -103,6 +112,8 @@ export default {
           },
           err => console.log(err)
         )
+        
+      console.log(this.type);
     },
     addRating () {
       axios.post('/api/rating', { 
@@ -148,6 +159,60 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    },
+    sortTable(n){
+      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+      table = document.getElementById("ratingForm");
+      console.log(table +'hi');
+      switching = true;
+      // Set the sorting direction to ascending:
+      dir = "asc";
+      /* Make a loop that will continue until no switching has been done: */
+      while (switching) {
+        // Start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /* Loop through all table rows (except the
+        first, which contains table headers): */
+        for (i = 1; i < (rows.length - 1); i++) {
+          // Start by saying there should be no switching:
+          shouldSwitch = false;
+          /* Get the two elements you want to compare,
+          one from current row and one from the next: */
+          x = rows[i].getElementsByTagName("TD")[n];
+          y = rows[i + 1].getElementsByTagName("TD")[n];
+          /* Check if the two rows should switch place,
+          based on the direction, asc or desc: */
+          if (dir == "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              // If so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              // If so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          /* If a switch has been marked, make the switch
+          and mark that a switch has been done: */
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          // Each time a switch is done, increase this count by 1:
+          switchcount ++;
+        } else {
+          /* If no switching has been done AND the direction is "asc",
+          set the direction to "desc" and run the while loop again. */
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
     }
   }
 }
