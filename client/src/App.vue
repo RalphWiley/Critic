@@ -1,13 +1,17 @@
 <template>
   <div id="app">
+    <Nav />
     <router-view />
-      
-   <font-awesome-icon :icon="['far', 'circle']" />
+    
   </div>
 </template>
 
 <script>
+import Nav from '@/components/Nav'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Nav
+  }
 }
 </script>

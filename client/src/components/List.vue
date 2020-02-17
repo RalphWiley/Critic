@@ -54,7 +54,7 @@
           <td class="col-sm-2">{{ title.type }}</td>
           <td class="col-sm-2">{{ title.rating }}</td>
           <td class="col-sm-2">{{ title.genre }}</td>
-          <td><button @click="editRating(title.title, title.id, title.rating, title.type, title.genre)" class="btn btn-default btn-xs btn-success"><font-awesome-icon :icon="['far', 'circle']" /></button></td>
+          <td><button @click="editRating(title.title, title.id, title.rating, title.type, title.genre)" class="btn btn-default btn-xs btn-success">Edit</button></td>
         </tr>
       </tbody>
     </table>
@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     getRatings () {
-      axios({ method: 'GET', url: '/api/ratings'})
+      axios({ method: 'GET', url: '/ratings'})
         .then(
           res => {
             console.log(res.data)
@@ -116,7 +116,7 @@ export default {
       console.log(this.type);
     },
     addRating () {
-      axios.post('/api/rating', { 
+      axios.post('/rating', { 
         id: this.id,
         title: this.title,
         rating: this.rating,
@@ -140,7 +140,7 @@ export default {
       this.isEdit = true
     },
     updateRating(){
-      axios.put(`/api/ratings/${this.id}`, 
+      axios.put(`/ratings/${this.id}`, 
       { id: this.id,
         title: this.title,
         rating: this.rating,
