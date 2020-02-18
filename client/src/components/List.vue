@@ -27,16 +27,13 @@
           <label for="genre">Genre</label>
           <input v-model="genre" type="text" class="form-control" id="genre" placeholder="Genre">
         </div>
-        <button v-if="this.isEdit == false" type="submit" class="btn btn-primary">Submit</button>
-        <button v-else type="button" @click="updateRating()" class="btn btn-primary">Edit</button>
+        <button v-if="this.isEdit == false" type="submit" class="btn btn-dark">Submit</button>
+        <button v-else type="button" @click="updateRating()" class="btn btn-dark">Edit</button>
       </form>
       </div>
   </div>
   <div class="row">
     <div class="col-md-10 mx-auto">
-  <h1>Rated</h1>
-    
-        <!-- <button @click="showContact(contact.id)" class="btn btn-default btn-xs">Edit</button> -->
     <table class="table table-striped" id="ratingForm">
       <thead class="thead-dark">
         <tr>
@@ -54,7 +51,7 @@
           <td class="col-sm-2">{{ title.type }}</td>
           <td class="col-sm-2">{{ title.rating }}</td>
           <td class="col-sm-2">{{ title.genre }}</td>
-          <td><button @click="editRating(title.title, title.id, title.rating, title.type, title.genre)" class="btn btn-default btn-xs btn-success">Edit</button></td>
+          <td><button @click="editRating(title.title, title.id, title.rating, title.type, title.genre)" class="btn btn-default btn-xs btn-dark">Edit</button></td>
         </tr>
       </tbody>
     </table>
@@ -72,7 +69,7 @@
     margin: 25px auto;
   }
   .form-style {
-    background-color: #ddd;
+    background-color: #ffffff73;
     padding: 25px;
     border-radius: 5px;
   }

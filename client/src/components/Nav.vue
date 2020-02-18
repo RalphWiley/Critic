@@ -1,36 +1,60 @@
 <template>
-    <ul>
-        <li>
-            {{ user }}
-            <router-link :to="{ name: 'home' }">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <h1 class="text-white">REVIEW</h1>
+    <ul class="nav ml-auto">
+        <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'home' }">
             Home
             </router-link>
         </li>
         <template v-if="authenticated">
-            <li>
-                {{ user.name }}
+            <li class="nav-item">
+                <a class="nav-link">{{ user.name }}</a>
             </li>
-            <li>
-                <a href="#">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
                 Sign Out
                 </a>
             </li>
-            <li>
-                <router-link :to="{ name: 'List' }">
+            <li class="nav-item">
+                <router-link class="nav-link" :to="{ name: 'List' }">
                 Ratings
                 </router-link>
             </li>
         </template>
         <template v-else>
-            <li>
-                <router-link :to="{ name: 'signin' }">
+            <li class="nav-item">
+                <router-link class="nav-link" :to="{ name: 'signin' }">
                 Sign In
                 </router-link>
             </li>
         </template>
     </ul>
+    </nav>
 </template>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif');
 
+h1 {
+  font-family: 'Noto Serif', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+}
+#nav {
+  padding: 30px;
+  color: white;
+}
+li {
+    color: white;
+}
+a {
+    font-weight: bold;
+    color: white;
+}
+
+
+</style>
 <script>
 import { mapGetters } from 'vuex'
 
