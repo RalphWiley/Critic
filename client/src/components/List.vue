@@ -73,6 +73,9 @@
     padding: 25px;
     border-radius: 5px;
   }
+  tbody {
+    background-color: #ffffff73;
+  }
   .table td {
     vertical-align: middle;
   }

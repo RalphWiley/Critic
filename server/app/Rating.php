@@ -14,4 +14,9 @@ class Rating extends Model
     protected $fillable = [
         'title', 'type', 'genre', 'rating'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

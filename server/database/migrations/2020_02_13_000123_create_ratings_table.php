@@ -15,10 +15,12 @@ class CreateRatingsTable extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->enum('type', ['movie', 'tv', 'book', 'graphic']);
             $table->string('genre');
             $table->decimal('rating', 2, 1);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });
