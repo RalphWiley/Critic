@@ -18,11 +18,13 @@ Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
-new Vue({
-  el: "#app",
-  router,
-  store,
-  components: { App, FontAwesomeIcon },
-  template: "<App/>"
+store.dispatch("auth/attempt", localStorage.getItem("token")).then(() => {
+  /* eslint-disable no-new */
+  new Vue({
+    el: "#app",
+    router,
+    store,
+    components: { App, FontAwesomeIcon },
+    template: "<App/>"
+  });
 });

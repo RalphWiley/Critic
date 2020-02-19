@@ -12,7 +12,7 @@
                 <a class="nav-link">{{ user.name }}</a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" @click.prevent="signOut" class="nav-link">
                 Sign Out
                 </a>
             </li>
@@ -26,6 +26,11 @@
             <li class="nav-item">
                 <router-link class="nav-link" :to="{ name: 'signin' }">
                 Sign In
+                </router-link>
+            </li>
+            <li class="nav-item">
+                <router-link class="nav-link" :to="{ name: 'register' }">
+                Register
                 </router-link>
             </li>
         </template>
@@ -56,7 +61,7 @@ a {
 
 </style>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     computed: {
@@ -64,6 +69,20 @@ export default {
             authenticated: 'auth/authenticated',
             user: 'auth/user'
         })
+    },
+
+    methods: {
+        ...mapActions({
+            signOutAction: 'auth/signOut'
+        }),
+
+        signOut() {
+            this.signOutAction().then(() => {
+                this.$router.replace({
+                    name: 'home'
+                })
+            })
+        }
     }
 }
 </script>
