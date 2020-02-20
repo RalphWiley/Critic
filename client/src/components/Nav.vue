@@ -2,28 +2,25 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <h1 class="text-white">REVIEW</h1>
     <ul class="nav ml-auto">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'home' }">
             Home
             </router-link>
-        </li>
+        </li> -->
         <template v-if="authenticated">
             <li class="nav-item">
-                <a class="nav-link">{{ user.name }}</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" @click.prevent="signOut" class="nav-link">
-                Sign Out
-                </a>
-            </li>
-            <li class="nav-item">
                 <router-link class="nav-link" :to="{ name: 'List' }">
-                Ratings
+                    <a class="nav-link">{{ user.name }}</a>
                 </router-link>
+            </li>
+            <li class="nav-item my-auto">
+                <a href="#" @click.prevent="signOut" class="nav-link">
+                    Sign Out
+                </a>
             </li>
         </template>
         <template v-else>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <router-link class="nav-link" :to="{ name: 'signin' }">
                 Sign In
                 </router-link>
@@ -32,7 +29,7 @@
                 <router-link class="nav-link" :to="{ name: 'register' }">
                 Register
                 </router-link>
-            </li>
+            </li> -->
         </template>
     </ul>
     </nav>
