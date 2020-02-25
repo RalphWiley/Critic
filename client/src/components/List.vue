@@ -45,8 +45,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(title) in titles"
-            :key="title.id" :type="title.type">
+        <tr v-for="title in thisUser" :key="title.id">
           <td class="col-sm-1 title">{{ title.title }}</td>
           <td class="col-sm-2">{{ title.type }}</td>
           <td class="col-sm-2">{{ title.rating }}</td>
@@ -90,41 +89,65 @@ export default {
   data(){
     return {
       titles: [],
+      username: '',
+      email: '',
       id: '',
+      user_id: this.user_id,
       title: '',
       rating: '',
       genre: '',
       type: '',
-      isEdit: false
+      isEdit: false,
+      }
+    },
+    created: function () {
+      this.getUser()
+      this.getRatings()
+    },
+    computed:  {
+      thisUser () {
+        const userId = this.user_id;
+        
+        return this.titles.filter(title => title.user_id === userId);
       }
     },
   mounted: function () {
-    this.getRatings()
-    console.log('Component mounted')
+  
   },
   methods: {
+    getUser () {
+      axios.get('auth/me').then(
+            res => {
+              this.username = res.data.name,
+              this.email = res.data.email,
+              this.user_id = res.data.id
+            },
+            err => console.log(err)
+          )
+    },
     getRatings () {
-      axios({ method: 'GET', url: '/ratings'})
-        .then(
+
+      axios({ method: 'GET', url: `/ratings`})
+        .then( 
           res => {
-            console.log(res.data)
+            console.log('getRatings ' + res.data)
             this.titles = res.data
           },
           err => console.log(err)
         )
-        
-      console.log(this.type);
+      
     },
     addRating () {
       axios.post('/rating', { 
         id: this.id,
+        user_id: this.user_id,
         title: this.title,
         rating: this.rating,
         type: this.type,
         genre: this.genre
         })
       .then( res => {
-        console.log(res)
+        // console.log(res)
         this.getRatings()
       
       }).catch(err => {
@@ -154,7 +177,7 @@ export default {
         this.genre = ''
         this.isEdit = false
         this.getRatings()
-        console.log(res)
+        // console.log(res)
       })
       .catch(err => {
         console.log(err)
@@ -163,7 +186,7 @@ export default {
     sortTable(n){
       var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
       table = document.getElementById("ratingForm");
-      console.log(table +'hi');
+      // console.log(table +'hi');
       switching = true;
       // Set the sorting direction to ascending:
       dir = "asc";

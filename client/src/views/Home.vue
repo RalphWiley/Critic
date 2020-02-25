@@ -58,8 +58,8 @@
     padding: 10px;
     width: 80%;
     font-family: 'Noto Serif', serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1 {

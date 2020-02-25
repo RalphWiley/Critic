@@ -16,6 +16,9 @@ export default {
 
     user (state) {
         return state.user
+    },
+    ratings (state) {
+      return state.ratings
     }
   },
 
@@ -61,6 +64,6 @@ export default {
         commit('SET_TOKEN', null)
         commit('SET_USER', null)
       })
-    }
+    },
   }
 }
