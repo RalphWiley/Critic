@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Hootlex\Friendships\Traits\Friendable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,7 +12,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     // Rest omitted for brevity
-
+    use Friendable;
     /**
      * The attributes that are mass assignable.
      *

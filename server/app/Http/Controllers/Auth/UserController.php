@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Rating;
+use JWTAuth;
 
 class UserController extends Controller
 {
+    
     public function index()
     {
         return User::all();
@@ -28,4 +31,18 @@ class UserController extends Controller
        
         return $userRates;
     }
+
+     public function sendRequest(Request $request)
+    {
+       $user = auth('api')->user();
+        
+        dd($user);
+    //     $email = $request->input('email');
+  
+    //    $recipient = User::all()->where('email', $email);
+       
+    //    $user->befriend($recipient);
+    //    dd($user->befriend($recipient));
+    }
+
 }

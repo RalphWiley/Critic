@@ -28,11 +28,13 @@ Route::get('/users', 'UserController@index');
 Route::get('/users/{id}', 'UserController@show');
 
 Route::post('register', 'Auth\RegisterController@register');
-Route::post('login', 'Auth\RegisterController@login');
+Route::post('login', [ 'as' => 'login', 'uses' => 'Auth\RegisterController@login']);
 
 Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function() {
     Route::post('signin', 'SignInController');
     Route::post('signout', 'SignOutController');
     Route::get('/users/{id}/ratings', 'UserController@userRatings');
     Route::get('me', 'MeController');
+
+    Route::post('/send', 'UserController@sendRequest');
 });
