@@ -35,14 +35,15 @@ class UserController extends Controller
      public function sendRequest(Request $request)
     {
        $user = auth('api')->user();
-        
-        dd($user);
-    //     $email = $request->input('email');
+    
+        $email = $request->input('email');
   
-    //    $recipient = User::all()->where('email', $email);
-       
-    //    $user->befriend($recipient);
-    //    dd($user->befriend($recipient));
+       $recipient = User::where('email', $email)->first();
+
+       $user->befriend($recipient);
+
+       return $recipient->getFriendRequests();
+
     }
 
 }
