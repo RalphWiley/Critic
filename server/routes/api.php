@@ -33,7 +33,7 @@ Route::post('login', [ 'as' => 'login', 'uses' => 'Auth\RegisterController@login
 Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function() {
     Route::post('signin', 'SignInController');
     Route::post('signout', 'SignOutController');
-    Route::get('/users/{id}/ratings', 'UserController@userRatings');
+    Route::get('/users/{id}/ratings', 'UserController@userRatings')->name('ratings');
     Route::get('me', 'MeController');
 
     Route::post('/send', 'UserController@sendRequest');

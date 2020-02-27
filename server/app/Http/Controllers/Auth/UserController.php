@@ -39,11 +39,9 @@ class UserController extends Controller
         $email = $request->input('email');
   
        $recipient = User::where('email', $email)->first();
-
+       
        $user->befriend($recipient);
-
-       return $recipient->getFriendRequests();
-
+    return $recipient->getFriendRequests();
     }
 
 }
