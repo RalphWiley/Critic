@@ -24,7 +24,6 @@ Route::post('rating', 'RatingController@store');
 Route::put('ratings/{id}', 'RatingController@update');
 Route::delete('ratings/{id}', 'RatingController@delete');
 
-Route::get('/users', 'UserController@index');
 Route::get('/users/{id}', 'UserController@show');
 
 Route::post('register', 'Auth\RegisterController@register');
@@ -33,8 +32,10 @@ Route::post('login', [ 'as' => 'login', 'uses' => 'Auth\RegisterController@login
 Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function() {
     Route::post('signin', 'SignInController');
     Route::post('signout', 'SignOutController');
+    Route::get('/users', 'UserController@index');
     Route::get('/users/{id}/ratings', 'UserController@userRatings')->name('ratings');
     Route::get('me', 'MeController');
 
     Route::post('/send', 'UserController@sendRequest');
+    Route::get('/requests/{id}', 'UserController@viewRequests');
 });

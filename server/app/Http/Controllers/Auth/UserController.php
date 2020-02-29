@@ -32,6 +32,8 @@ class UserController extends Controller
         return $userRates;
     }
 
+    // Friends
+
      public function sendRequest(Request $request)
     {
        $user = auth('api')->user();
@@ -41,7 +43,14 @@ class UserController extends Controller
        $recipient = User::where('email', $email)->first();
        
        $user->befriend($recipient);
-    return $recipient->getFriendRequests();
+
+       return response()->json(['recipient' => $recipient, 'sender' => $user]);
+    }
+
+    public function viewRequests(Request $request, $id)
+    {
+        $recipient = User::find($id);
+        return $recipient->getPendingFriendships();
     }
 
 }
