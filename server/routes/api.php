@@ -37,5 +37,8 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function() {
     Route::get('me', 'MeController');
 
     Route::post('/send', 'UserController@sendRequest');
-    Route::get('/requests/{id}', 'UserController@viewRequests');
+    Route::get('/friends', 'FriendshipController@index');
+    Route::get('/friends/{user}', 'FriendshipController@showFriends');
+    // Route::get('/requests/{id}', 'UserController@viewRequests');
+    // Route::post('/requests/{user}/accept', 'UserController@acceptRequest');
 });

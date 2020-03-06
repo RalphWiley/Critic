@@ -48,7 +48,7 @@ class RatingsTableSeeder extends Seeder
         	'updated_at' => NOW()
         ]);
         \DB::table('ratings')->insert([
-        	'user_id' => 4,
+        	'user_id' => 1,
         	'title' => 'Misfits',
             'type' => 'tv',
             'genre' => 'Comedy / Drama',

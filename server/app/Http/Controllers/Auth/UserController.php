@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\User;
 use App\Rating;
 use JWTAuth;
+
 
 class UserController extends Controller
 {
@@ -53,4 +55,13 @@ class UserController extends Controller
         return $recipient->getPendingFriendships();
     }
 
+    public function acceptRequest(User $user)
+    {
+        $recipient = Friendship::all()->where('recipient_id', $user->id)->first();
+       
+        $sender = $recipient->sender;
+
+        $user->acceptFriendRequest($sender);
+ 
+    }
 }
