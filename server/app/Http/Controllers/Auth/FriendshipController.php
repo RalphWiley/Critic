@@ -41,6 +41,17 @@ class FriendshipController extends Controller
    
     }
 
+    public function getFriendRatings(User $user)
+    {
+        $sender = Friendship::all()
+                        ->where('sender_id', $user->id)->toArray();
+        $recipient = Friendship::all()
+                        ->where('recipient_id', $user->id)->toArray();
+                        
+        $friends = array_merge($sender, $recipient);
+        return $friends;
+    }
+
     // public function userRatings(Request $request, $id)
     // {
     
