@@ -1,25 +1,19 @@
 <template>
 <div id="friends" class="container">
-    <h1>Friends</h1>
-    <div class="row">
-        <div class="col-10">
+    
+    <div class="row mt-5 mb-5">
+        <div class="col-10 mx-auto">
             <form @submit.prevent="submit" class="form-style">
-                <div class="form-group">
-                    <label for="email">
-                        Email
-                    </label>
-
-                    <input type="text" name="email" class="form-control" id="email" v-model="email">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Enter User Email" aria-label="Enter User Email" aria-describedby="basic-addon2" id="email" v-model="email">
+                    <div class="input-group-append bg-dark">
+                        <span class="input-group-text text-white" id="basic-addon2">Send Request</span>
+                    </div>
                 </div>
-                <div>
-                    <button type="submit" class="btn btn-dark">
-                        Send Request
-                    </button>
-                </div>  
             </form>
         </div>
     </div>
-    <div class="row mt-3" v-for="(user, index) in myFriends" :key="index">
+    <div class="row mt-1" v-for="(user, index) in myFriends" :key="index">
         <div class="col-4">
             <div class="list-group" id="list-tab" role="tablist">
                 <a class="list-group-item list-group-item-action" :class="{ active: index === activeItem }" data-toggle="list" role="tab" :user="user" @click="selectItem(index)">
@@ -39,10 +33,15 @@
 </template>
 
 <style>
- body {
+  body {
     background-color: #477d5d9c;
   }
-.form-style {
+
+  .input-group-append {
+      border-radius: 5px;
+  }
+
+  .form-style {
     background-color: #ffffff73;
     padding: 25px;
     border-radius: 5px;
@@ -50,7 +49,7 @@
 
   .current{
   background:rgb(56,184,131);
-}
+  }
 </style>
 
 <script>
