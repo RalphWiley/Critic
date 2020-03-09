@@ -8,9 +8,14 @@
             </router-link>
         </li> -->
         <template v-if="authenticated">
-            <li class="nav-item">
+            <li class="nav-item my-auto">
                 <router-link class="nav-link" :to="{ name: 'List' }">
-                    <a class="nav-link">{{ user.name }}</a>
+                    {{ user.name }}
+                </router-link>
+            </li>
+            <li class="nav-item my-auto">
+                <router-link class="nav-link" :to="{ name: 'Friends' }">
+                    Friends
                 </router-link>
             </li>
             <li class="nav-item my-auto">

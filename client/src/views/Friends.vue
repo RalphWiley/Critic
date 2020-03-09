@@ -13,7 +13,7 @@
                 </div>
                 <div>
                     <button type="submit" class="btn btn-dark">
-                        Register
+                        Send Request
                     </button>
                 </div>  
             </form>
@@ -21,15 +21,17 @@
     </div>
     <div class="row mt-3" v-for="(user, index) in myFriends" :key="index">
         <div class="col-4">
-            <div :class="{ 'is-active': index.isActive }" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action" data-toggle="list" :href="user.href" role="tab"  @click="selectTab(index)">
+            <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action" :class="{ active: index === activeItem }" data-toggle="list" role="tab" :user="user" @click="selectItem(index)">
                     {{user}}
                 </a>
             </div>
         </div>
         <div class="col-8">
-            <div v-show="isActive" class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show" :id="{index}" role="tabpanel" aria-labelledby="list-home-list">{{user}}</div>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade active show" role="tabpanel" aria-labelledby="list-home-list">
+                    {{index}}
+                </div>
             </div>
         </div>
     </div>    
@@ -45,55 +47,60 @@
     padding: 25px;
     border-radius: 5px;
   }
+
+  .current{
+  background:rgb(56,184,131);
+}
 </style>
 
 <script>
 import axios from 'axios'
 export default {
-  data(){
-    return {
-        id: '',
-        email: '',
-        name: '',
-        user: [],
-        allUsers: [],
-        pendingFriends: [],
-        recipient: [],
-        selected: '',
-        isActive: false
-      }
+    data(){
+        return {
+            id: '',
+            email: '',
+            name: '',
+            user: [],
+            allUsers: [],
+            pendingFriends: [],
+            ratings: [],
+            recipient: [],
+            current: 0,
+            activeItem: null
+        }
     },
-    mounted() {
+    mounted: function () {
         this.getUser()
         this.getAllUsers()
-        this.isActive = this.selected;
-    },
-    computed:  {
-      myFriends () {
-        // get users id and email
-        const users = this.allUsers.map(e => [e.id, e.email]);
-        //gets recipient id from getFriends request
-        const friends = this.pendingFriends.map(a => a.recipient_id);
-        
-        // match recipient id to a user id and get name back
-        for (let i = 0; i < friends.length; i++){
+        this.getRatings()
+    }, 
+    computed: {
+        myFriends: function() {
             
-            for (let x = 0; x < users.length; x++){
+            var parsedFriends = this.pendingFriends;
+            var parsedRatings = this.ratings;
+            console.log(parsedRatings);
+            // var friends = parsedFriends;
+            var newFriends = parsedFriends.map(a=>a.map(function(val, index){
+                return val.name;
+            }));
+            const myFriends = [];
+
+            const iterator = newFriends.values();
+            for (const value of iterator){
+                myFriends.push(value);
                 
-                if(friends[i] === users[x][0]){
-                    this.recipient.push(users[x][1]);
-                }
             }
-        }
-        
-        const myFriends = this.recipient;
-        return myFriends;   
-        
-      },
-      href() {
-            return '#' + this.user.toLowerCase().replace(/ /g, '-');
-        }
-    },    
+            var myArray = [];
+            for(var i = 0; i < myFriends.length; i++){
+                myArray.push(myFriends[i][0])
+            }
+            console.log(myArray);
+            
+            return myArray;
+        },
+    },
   methods: {
       submit() {
         axios({ 
@@ -131,20 +138,30 @@ export default {
         err => console.log(err)
         )
       },
-      async getFriendRequests(id) {
-          await axios.get(`auth/requests/${this.id}`).then(
+      getFriendRequests(id) {
+        axios.get(`auth/friends/${this.id}`).then(
               res => {
                   this.pendingFriends = res.data
+                //   console.log('Get Requests ' + JSON.stringify(this.friends))
               },
               err => console.log(err)
           )
       },
-      selectTab(selectedUser) {
-            this.recipient.forEach(user => {
-                user.isActive = (user.index == selectedUser.index);
-                console.log(user)
-            });
-        }
+      selectItem(index){
+          this.activeItem = index;
+      },
+      getRatings () {
+
+      axios({ method: 'GET', url: `/ratings`})
+        .then( 
+          res => {
+            console.log('getRatings ' + res.data)
+            this.ratings = res.data
+          },
+          err => console.log(err)
+        )
+      
+    },
   }
 }
 </script>
