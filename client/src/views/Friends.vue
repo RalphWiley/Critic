@@ -17,14 +17,14 @@
         <div class="col-4">
             <div class="list-group" id="list-tab" role="tablist">
                 <a class="list-group-item list-group-item-action" :class="{ active: index === activeItem }" data-toggle="list" role="tab" :user="user" @click="selectItem(index)">
-                    {{user}}
+                    {{user[0]}}
                 </a>
             </div>
         </div>
         <div class="col-8">
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade active show" role="tabpanel" aria-labelledby="list-home-list">
-                    {{index}}
+                    {{user[1]}}
                 </div>
             </div>
         </div>
@@ -79,11 +79,14 @@ export default {
             
             var parsedFriends = this.pendingFriends;
             var parsedRatings = this.ratings;
-            console.log(parsedRatings);
+            // console.log(parsedFriends);
             // var friends = parsedFriends;
             var newFriends = parsedFriends.map(a=>a.map(function(val, index){
-                return val.name;
+                return [val.name, val.id];
             }));
+            // need to connect friends ratings 
+            var newFriendsRatings = parsedRatings.map(a=> [a.rating, a.title, a.type, a.user_id]);
+
             const myFriends = [];
 
             const iterator = newFriends.values();
@@ -91,11 +94,23 @@ export default {
                 myFriends.push(value);
                 
             }
+            
             var myArray = [];
             for(var i = 0; i < myFriends.length; i++){
-                myArray.push(myFriends[i][0])
+                myArray.push(myFriends[i][0]);  
             }
-            console.log(myArray);
+
+            for(var i = 0; i < myArray.length; i++){
+                var users = myArray[i];
+                 for (var x = 0; x < newFriendsRatings.length; x++){
+                    var hello = newFriendsRatings[x];
+                    if(users[1] === hello[3]){
+                        myArray.push([users, hello]);
+                       
+                    }
+               
+                }
+            }
             
             return myArray;
         },
