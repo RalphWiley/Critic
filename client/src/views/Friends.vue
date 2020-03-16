@@ -15,16 +15,16 @@
     </div>
     <div class="row mt-1" v-for="(user, index) in myFriends" :key="index">
         <div class="col-4">
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action" :class="{ active: index === activeItem }" data-toggle="list" role="tab" :user="user" @click="selectItem(index)">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+                <a class="nav-link" :id="index" href="#v-pills-{index}" :class="{ active: index === activeItem }" data-toggle="pill" role="tab" :user="user" @click="selectItem(index)">
                     {{user.friends.name}}
                 </a>
             </div>
         </div>
         <div class="col-8">
-            <div class="tab-content" id="nav-tabContent">
+            <div class="tab-content" id="v-pills-tabContent">
                 
-                <div class="tab-pane fade active show" role="tabpanel" aria-labelledby="list-home-list">
+                <div class="tab-pane fade active show" id="v-pills-{index}" role="tabpanel" aria-labelledby="list-home-list" :class="{ active: index === 0 }" v-if="index === activeItem">
                    <div v-for="(rating, index) in user.friends.user_rating" :key="index">
                     {{rating.title}} - {{rating.rating}}
                     </div>
