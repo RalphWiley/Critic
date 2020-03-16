@@ -25,7 +25,7 @@
             </li>
         </template>
         <template v-else>
-            <!-- <li class="nav-item">
+            <li class="nav-item">
                 <router-link class="nav-link" :to="{ name: 'signin' }">
                 Sign In
                 </router-link>
@@ -34,7 +34,7 @@
                 <router-link class="nav-link" :to="{ name: 'register' }">
                 Register
                 </router-link>
-            </li> -->
+            </li>
         </template>
     </ul>
     </nav>

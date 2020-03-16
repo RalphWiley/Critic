@@ -17,7 +17,7 @@
         <div class="col-4">
             <div class="list-group" id="list-tab" role="tablist">
                 <a class="list-group-item list-group-item-action" :class="{ active: index === activeItem }" data-toggle="list" role="tab" :user="user" @click="selectItem(index)">
-                    {{user.friends.name}}
+                    {{user[0]}}
                 </a>
             </div>
         </div>
@@ -25,9 +25,8 @@
             <div class="tab-content" id="nav-tabContent">
                 
                 <div class="tab-pane fade active show" role="tabpanel" aria-labelledby="list-home-list">
-                   <div v-for="(rating, index) in user.friends.user_rating" :key="index">
-                    {{rating.title}} - {{rating.rating}}
-                    </div>
+                   
+                    {{user[2]}}
                 </div>
             </div>
         </div>
@@ -74,13 +73,11 @@ export default {
                 {
                     id: '',
                     name: '',
-                    user_ratings: [
-                        {
-                            'title': '',
-                            'type': '',
-                            'rating': ''
-                        }
-                    ]
+                    user_ratings: {
+                        'title': '',
+                        'type': '',
+                        'rating': ''
+                    }
                 }
             ]
         }
@@ -94,39 +91,48 @@ export default {
 
         myFriends: function() {
             
-            var myFriends = this.pendingFriends;
-            var newFriendsRatings = this.ratings;
+            var parsedFriends = this.pendingFriends;
+            var parsedRatings = this.ratings;
             // console.log(parsedFriends);
             // var friends = parsedFriends;
-            // var newFriends = parsedFriends.map(a=>a.map(function(val, index){
-            //     return [val.name, val.id];
-            // }));
+            var newFriends = parsedFriends.map(a=>a.map(function(val, index){
+                return [val.name, val.id];
+            }));
             // need to connect friends ratings 
-            // var newFriendsRatings = parsedRatings.map(a=> [a.rating, a.title, a.type, a.user_id]);
-            // const myFriends = [];
-            // const iterator = newFriends.values();
-            // for (const value of iterator){
-            //     myFriends.push(value);
+            var newFriendsRatings = parsedRatings.map(a=> [a.rating, a.title, a.type, a.user_id]);
+            const myFriends = [];
+            const iterator = newFriends.values();
+            for (const value of iterator){
+                myFriends.push(value);
                 
-            // }
+            }
             
             
             for(var i = 0; i < myFriends.length; i++){
-                
-                this.myArray.push({'friends' : myFriends[i][0]});  
+                this.myArray.push(myFriends[i][0]);  
+            }
+            for(var i = 0; i < this.myArray.length; i++){
+                var users = this.myArray[i];
+                var userRatings = []
+                 for (var x = 0; x < newFriendsRatings.length; x++){
+                    var ratings = newFriendsRatings[x];
+                   
+                    if(users[1] === ratings[3]){
+                    
+                        userRatings.push({
+                            'title': ratings[0],
+                            'type': ratings[1],
+                            'rating': ratings[2]
+                        });
+                       users.push(userRatings);
+                    }
+                    
+                }
+                console.log(userRatings);
             }
             
-            var friends = this.myArray.filter(user => user.name !== "");
-           
-            var trueFriends = friends.map(user => {
-               var newRatings = this.ratings.filter(rating => rating.user_id === user.friends.id);
-               user.friends['user_rating'] = newRatings;
-            })
-            
-        
-            
-          return friends;
-        }
+            return this.myArray;
+        },
     },
   methods: {
       submit() {
@@ -151,7 +157,6 @@ export default {
         axios.get('auth/users').then(
             res => {
               this.allUsers = res.data
-              
             },
             err => console.log(err)
           )
@@ -189,7 +194,13 @@ export default {
           err => console.log(err)
         )
       
-    }
+    },
+    userRatings: function(rating, title, type, user_id) {
+            this.rating = rating;
+            this.title = title;
+            this.type = type;
+            this.user_id = user_id;
+        },
   }
 }
 </script>
