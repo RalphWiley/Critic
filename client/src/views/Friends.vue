@@ -13,25 +13,35 @@
             </form>
         </div>
     </div>
-    <div class="row mt-1" v-for="(user, index) in myFriends" :key="index">
-        <div class="col-4">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
-                <a class="nav-link" :id="index" href="#v-pills-{index}" :class="{ active: index === activeItem }" data-toggle="pill" role="tab" :user="user" @click="selectItem(index)">
+    <div class="row" v-for="(user, index) in myFriends" :key="index">
+        <div class="col-md-4">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link" :id="'v-pills-'+index" :href="'#v-pills-'+index" :aria-controls="'v-pills-'+index" :class="{ active: index === activeItem }" data-toggle="pill" role="tab" @click="selectItem(index)">
                     {{user.friends.name}}
                 </a>
             </div>
         </div>
-        <div class="col-8">
+        <div class="col-md-8">
             <div class="tab-content" id="v-pills-tabContent">
-                
-                <div class="tab-pane fade active show" id="v-pills-{index}" role="tabpanel" aria-labelledby="list-home-list" :class="{ active: index === 0 }" v-if="index === activeItem">
-                   <div v-for="(rating, index) in user.friends.user_rating" :key="index">
-                    {{rating.title}} - {{rating.rating}}
-                    </div>
+                <div class="tab-pane fade show active" :id="'v-pills-'+index" role="tabpanel" :aria-labelledby="'v-pills-'+index+'-tab'" :class="{ active: index === 0 }" v-if="index === activeItem">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Title</th>
+                                <th scope="col">Rating</th>
+                                <th scope="col">Type</th>
+                            </tr>
+                        </thead>
+                        <tbody class="ratings" v-for="(rating, index) in user.friends.user_rating" :key="index">
+                            <td>{{rating.title}}</td>
+                            <td>{{rating.rating}}</td>
+                            <td>{{rating.type}}</td>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 </template>
 
@@ -41,7 +51,7 @@
   }
 
   .input-group-append {
-      border-radius: 5px;
+    border-radius: 5px;
   }
 
   .form-style {
@@ -51,8 +61,18 @@
   }
 
   .current{
-  background:rgb(56,184,131);
+    background:rgb(56,184,131);
   }
+
+  .tab-content {
+    background-color: white;
+  }
+
+  .ratings {
+    font-weight: 300;
+    padding-bottom: 10px;
+  }
+
 </style>
 
 <script>
@@ -96,21 +116,7 @@ export default {
             
             var myFriends = this.pendingFriends;
             var newFriendsRatings = this.ratings;
-            // console.log(parsedFriends);
-            // var friends = parsedFriends;
-            // var newFriends = parsedFriends.map(a=>a.map(function(val, index){
-            //     return [val.name, val.id];
-            // }));
-            // need to connect friends ratings 
-            // var newFriendsRatings = parsedRatings.map(a=> [a.rating, a.title, a.type, a.user_id]);
-            // const myFriends = [];
-            // const iterator = newFriends.values();
-            // for (const value of iterator){
-            //     myFriends.push(value);
-                
-            // }
-            
-            
+           
             for(var i = 0; i < myFriends.length; i++){
                 
                 this.myArray.push({'friends' : myFriends[i][0]});  
@@ -122,8 +128,6 @@ export default {
                var newRatings = this.ratings.filter(rating => rating.user_id === user.friends.id);
                user.friends['user_rating'] = newRatings;
             })
-            
-        
             
           return friends;
         }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Rating;
 use App\User;
+use App\Http\Requests\UserRatingPost;
 
 class RatingController extends Controller
 {
@@ -14,7 +15,7 @@ class RatingController extends Controller
 
     public function show($id){
         return Rating::find($id);
-    } 
+    }
 
     public function store(Request $request){
         return Rating::create($request->all());
